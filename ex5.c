@@ -119,7 +119,7 @@ void mainMenu() {
     printf("3. Print\n");
     printf("4. Exit\n");
 }
-
+// helper function to read a dynamic string from input. Reallocates memory 1 byte at a time (char by char).
 char *getString() {
     int capacity = 1;
     int length = 0;
@@ -202,18 +202,19 @@ int countShows() {
 void expandDB(){
     int newSize = dbSize + 1;
     int numShows = countShows();
+//allocate new rows
     TVShow ***newDB = malloc(sizeof(TVShow**) * newSize);
-//make new array
+//allocate columns for each row
     for (int i = 0; i < newSize; i++) {
         newDB[i] = malloc(newSize * sizeof(TVShow*));
     }
-//initialize everything to null
+//initialize everything to NULL
     for (int i = 0; i < newSize; i++) {
         for (int j = 0; j < newSize; j++) {
             newDB[i][j] = NULL;
         }
     }
-//copy existing shows
+//copy existing shows to the new array linearly
     int idx = 0;
     for (int i = 0; i < dbSize && idx < numShows; i++) {
         for (int j = 0; j < dbSize && idx < numShows; j++) {
@@ -225,7 +226,7 @@ void expandDB(){
             }
         }
     }
-//release old database
+//free old database structure
     for (int i = 0; i < dbSize; i++) {
         free(database[i]);
     }
@@ -250,17 +251,17 @@ void shrinkDB() {
     }
     int numShows = countShows();
     TVShow ***newDB = malloc(sizeof(TVShow**) * newSize);
-    //make new array
+//allocate new smaller array
     for (int i = 0; i < newSize; i++) {
         newDB[i] = malloc(newSize * sizeof(TVShow*));
     }
-    //initialize everything to null
+//initialize to NULL
     for (int i = 0; i < newSize; i++) {
         for (int j = 0; j < newSize; j++) {
             newDB[i][j] = NULL;
         }
     }
-    //copy existing shows
+//copy shows
     int idx = 0;
     for (int i = 0; i < dbSize && idx < numShows; i++) {
         for (int j = 0; j < dbSize && idx < numShows; j++) {
@@ -272,7 +273,7 @@ void shrinkDB() {
             }
         }
     }
-    //release old database
+//free old database
     for (int i = 0; i < dbSize; i++) {
         free(database[i]);
     }
@@ -376,7 +377,7 @@ Episode *findEpisode(Season *season, char *name) {
 void addShow() {
     printf("Enter the name of the show:\n");
     char *name = getString();
-//check if already exist
+//check duplicates
     if (findShow(name) != NULL) {
         printf("Show already exists.\n");
         free(name);
@@ -389,7 +390,7 @@ void addShow() {
         database[0] = malloc(sizeof(TVShow*));
         database[0][0] = NULL;
 }
-//check if there is enough place
+//check if expansion is needed (if array is full)
     if (numShows >= dbSize * dbSize) {
         expandDB();
     }
@@ -443,7 +444,6 @@ void addSeason() {
     newSeason->next = NULL;
     printf("Enter the position:\n");
     int pos = getInt();
-//right position
     if (show->seasons == NULL) {
         show->seasons = newSeason;
         free(showName);

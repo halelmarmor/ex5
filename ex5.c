@@ -716,7 +716,7 @@ void printArray() {
             if (database[i][j] != NULL) {
                 printf("[%s] ", database[i][j]->name);
             } else {
-                printf("[NULL]");
+                printf("[NULL] ");
             }
         }
         printf("\n");

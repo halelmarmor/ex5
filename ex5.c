@@ -496,7 +496,7 @@ void addEpisode() {
         free(episodeName);
         return;
     }
-    printf("Enter the length(xx:xx:xx):\n");
+    printf("Enter the length (xx:xx:xx):\n");
     length = getString();
     while (!validLength(length)) {
         printf("Invalid length, enter again:\n");
@@ -714,7 +714,7 @@ void printArray() {
     for (int i = 0; i < dbSize; i++) {
         for (int j = 0; j < dbSize; j++) {
             if (database[i][j] != NULL) {
-                printf("[%s]", database[i][j]->name);
+                printf("[%s] ", database[i][j]->name);
             } else {
                 printf("[NULL]");
             }

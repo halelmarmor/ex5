@@ -565,7 +565,7 @@ void deleteShow() {
     int lastRow = numShows  / dbSize;
     int lastCol = numShows % dbSize;
     database[lastRow][lastCol] = NULL;
-    if (numShows <= (dbSize -1) * (dbSize - 1)) {
+    if ((numShows-1) <= (dbSize -1) * (dbSize - 1)) {
         shrinkDB();
     }
 }
